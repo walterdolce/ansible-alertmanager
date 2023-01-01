@@ -20,6 +20,15 @@
   notify:
     - restart alertmanager
 
+- name: configure Alertmanager web
+  copy:
+    content: "{{ alertmanager_web_config | to_nice_yaml(indent=2,sort_keys=False) }}"
+    dest: "{{ alertmanager_config_dir }}/web.yml"
+    force: true
+    owner: root
+    group: alertmanager
+    mode: 0640
+
 - name: create systemd service unit
   template:
     src: alertmanager.service.j2
